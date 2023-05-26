@@ -6,6 +6,7 @@ int main(int argc, char *argv[]){
 	FILE *fout = fopen("submit.csv", "wb");
 	int y;
 	int idx = 17170;
+	fscanf(fout, "id, Danceability\n");
 	while(fscanf(fin, "%d", &y) != EOF){
 		fprintf(fout, "%d, %d\n", idx, y);
 		idx++;
