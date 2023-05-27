@@ -4,13 +4,11 @@ using namespace std;
 
 long double x[17170][17];
 double y[17170];
-long double gam = 1.0;
 
 long double dis(int a, int b){
     long double diss = 0.0;
     for(int i = 0; i < 17; ++i) diss += (x[a][i] - x[b][i]) * (x[a][i] - x[b][i]);
-    //return exp(-gam * diss);
-    return sqrtl(diss);
+    return diss;
 }
 
 

@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
+#define n 17170 - 9
 using namespace std;
 
-long double x[17170][17];
-double y[17170];
+long double x[n][17];
+double y[n];
 
 long double dis(int a, int b){
     long double diss = 0.0;
@@ -11,12 +12,12 @@ long double dis(int a, int b){
 }
 
 int main(){
-    FILE *fin = fopen("train", "rb");
+    FILE *fin = fopen("train.scale", "rb");
     FILE *fout = fopen("train.svm", "wb");
     int tmp;
     vector<int> v;
     set<int> s;
-    for(int i = 0; i < 17170; ++i){
+    for(int i = 0; i < n; ++i){
         int cnt = 0;
         for(int j = 0; j < 17; ++j) fscanf(fin, "%Lf", &x[i][j]);
         for(int j = 0; j < 17; ++j) cnt += (x[i][j] == -1.0);
@@ -25,7 +26,7 @@ int main(){
     }
     fclose(fin);
     int siz = N;
-    for(int i = 0; i < 17170; ++i){
+    for(int i = 0; i < n; ++i){
         if(!s.count(i)){
             vector<pair<long double, int>> vv;
             for(int j = 0; j < v.size(); ++j) vv.push_back({dis(i,v[j]), v[j]});
