@@ -16,6 +16,7 @@ int main(){
         fscanf(fin1, "%lf", &y[i]);
         for(int j = 0; j < 17; ++j) if(x[i][j] != (long double)-1.0) is[j]++;
         for(int j = 0; j < 17; ++j) if(is[j] == 1) low[j] = high[j] = x[i][j], is[j]++;
+        if(i == 2071 || i == 6541 || i == 7001 || i == 11356 || i == 7757 || i == 16803 || i == 9384 || i == 12004 || i == 11337) continue;
         for(int j = 0; j < 17; ++j) if(is[j] > 1 && x[i][j] != (long double)-1.0){
             low[j] = low[j] > x[i][j] ? x[i][j] : low[j];
             high[j] = high[j] < x[i][j] ? x[i][j] : high[j];

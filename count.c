@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     while(fscanf(fin, "%d", &t) != EOF){
         count[t]++;
     }
-    for(int i = 0; i < 10; ++i) printf("%d  ", count[i]);
+    for(int i = 0; i < 10; ++i) printf("%d:%d\t", i, count[i]);
     putchar('\n');
     return 0;
 }
