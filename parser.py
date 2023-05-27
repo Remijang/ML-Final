@@ -8,7 +8,7 @@ for row in rows :
     if r == 0:
         r = r + 1
         continue
-    tmp = [row[17]]
+    tmp = []
     for i in range(1,14):
         if not row[i]:
             tmp.append(-1)
@@ -25,7 +25,7 @@ for row in rows :
         if not row[i]:
             tmp.append(-1)
         else:
-            if row[i] == 'TRUE':
+            if row[i] == "True":
                 tmp.append(1)
             else:
                 tmp.append(0)
