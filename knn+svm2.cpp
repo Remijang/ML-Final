@@ -45,8 +45,8 @@ int main(){
         }
         for(int k = 0; k < 17; ++k) if(x[i][k] == (long double)-1.0) x[i][k] = mean[k] / siz;
         if(i > n) fprintf(fout, "\n");
-        fprintf(fout, "+1 ");
-        for(int k = 0; k < 17; ++k) fprintf(fout, "%d:%Lf ", k+1, x[i][k]);
+        fprintf(fout, "+1");
+        for(int k = 0; k < 17; ++k) fprintf(fout, " %d:%Lf", k+1, x[i][k]);
     }
     fclose(fout);
     return 0;
