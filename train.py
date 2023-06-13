@@ -14,29 +14,24 @@ def MAE(preds, targets):
 
 # read csv
 df = pd.read_csv("new_train.csv")
+df2 = pd.read_csv("new_test.csv")
 
 # get x and y
 y = df['Danceability'].to_numpy().astype(np.int32)
 X = df.drop(['Danceability'], axis=1).to_numpy()
+X2 = df2.to_numpy()
 
 X_train, X_test, y_train, y_test = train_test_split(
      X, y, test_size=3400, random_state=1126
 )
 
 bdt_real = AdaBoostClassifier(
-    DecisionTreeClassifier(max_depth=2), n_estimators=300, learning_rate=1
+    DecisionTreeClassifier(max_depth=5), n_estimators=300, learning_rate=0.5
 )
 
-bdt_discrete = AdaBoostClassifier(
-    DecisionTreeClassifier(max_depth=2),
-    n_estimators=300,
-    learning_rate=1.5,
-    algorithm="SAMME",
-)
+model = bdt_real.fit(X_train, y_train)
 
-bdt_real.fit(X_train, y_train)
-bdt_discrete.fit(X_train, y_train)
-
+"""
 real_test_errors = []
 discrete_test_errors = []
 real_predict = []
@@ -56,49 +51,7 @@ n_trees_real = len(bdt_real)
 discrete_estimator_errors = bdt_discrete.estimator_errors_[:n_trees_discrete]
 real_estimator_errors = bdt_real.estimator_errors_[:n_trees_real]
 discrete_estimator_weights = bdt_discrete.estimator_weights_[:n_trees_discrete]
+"""
 
-
-plt.figure(figsize=(15, 5))
-
-plt.subplot(131)
-plt.plot(range(1, n_trees_discrete + 1), discrete_test_errors, c="black", label="SAMME")
-plt.plot(
-    range(1, n_trees_real + 1),
-    real_test_errors,
-    c="black",
-    linestyle="dashed",
-    label="SAMME.R",
-)
-plt.legend()
-plt.ylim(0.18, 0.62)
-plt.ylabel("Test Error")
-plt.xlabel("Number of Trees")
-
-plt.subplot(132)
-plt.plot(
-    range(1, n_trees_discrete + 1),
-    discrete_estimator_errors,
-    "b",
-    label="SAMME",
-    alpha=0.5,
-)
-plt.plot(
-    range(1, n_trees_real + 1), real_estimator_errors, "r", label="SAMME.R", alpha=0.5
-)
-plt.legend()
-plt.ylabel("Error")
-plt.xlabel("Number of Trees")
-plt.ylim((0.2, max(real_estimator_errors.max(), discrete_estimator_errors.max()) * 1.2))
-plt.xlim((-20, len(bdt_discrete) + 20))
-
-plt.subplot(133)
-plt.plot(range(1, n_trees_discrete + 1), discrete_estimator_weights, "b", label="SAMME")
-plt.legend()
-plt.ylabel("Weight")
-plt.xlabel("Number of Trees")
-plt.ylim((0, discrete_estimator_weights.max() * 1.2))
-plt.xlim((-20, n_trees_discrete + 20))
-
-# prevent overlapping y-axis labels
-plt.subplots_adjust(wspace=0.25)
-plt.show()
+y_pred = model.predict(X2).round(0)
+np.savetxt("predict", y_pred.astype(int), fmt='%i', delimiter=",")
