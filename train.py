@@ -6,15 +6,29 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+
 def MAE(preds, targets):
     preds = np.array(preds)
     targets = np.array(targets)
     return np.sum(np.abs(preds-targets)) / targets.size
 
+params = {
+    'max_depth': [2, 3, 5, 10, 20, 40],
+    'min_samples_leaf': [5, 10, 20, 50, 100, 200],
+    'criterion': ["gini", "entropy", "log_loss"]
+}
+
+params2 = {
+    'n_estimators' : [50, 100, 200],
+    'learning_rate' : [0.01, 0.02, 0.05, 0.1, 0.2, 0.5]
+}
 
 # read csv
-df = pd.read_csv("new_train.csv")
-df2 = pd.read_csv("new_test.csv")
+s = "std_target_imputed_"
+print(s)
+df = pd.read_csv(s + "train.csv")
+df2 = pd.read_csv(s + "test.csv")
 
 # get x and y
 y = df['Danceability'].to_numpy().astype(np.int32)
@@ -22,35 +36,33 @@ X = df.drop(['Danceability'], axis=1).to_numpy()
 X2 = df2.to_numpy()
 
 X_train, X_test, y_train, y_test = train_test_split(
-     X, y, test_size=3400, random_state=1126
+     X, y, test_size=3400, random_state=1125
 )
 
+"""
+X_train = X
+y_train = y
+
+grid_search = GridSearchCV(estimator=AdaBoostClassifier(
+            DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42)), 
+                           param_grid=params2, 
+                           cv=5, n_jobs=-1, verbose=2, scoring = "neg_mean_absolute_error")
+
+grid_search.fit(X, y)
+
+print(grid_search.best_estimator_)
+
+best = grid_search.best_estimator_
+"""
+
 bdt_real = AdaBoostClassifier(
-    DecisionTreeClassifier(max_depth=5), n_estimators=300, learning_rate=0.5
+    DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=100, learning_rate=0.3
 )
 
 model = bdt_real.fit(X_train, y_train)
-
 """
-real_test_errors = []
-discrete_test_errors = []
-real_predict = []
-discrete_predict = []
 
-for real_test_predict, discrete_test_predict in zip(
-    bdt_real.staged_predict(X_test), bdt_discrete.staged_predict(X_test)
-):
-    real_test_errors.append(1.0 - MAE(real_test_predict, y_test))
-    discrete_test_errors.append(1.0 - MAE(discrete_test_predict, y_test))
-
-n_trees_discrete = len(bdt_discrete)
-n_trees_real = len(bdt_real)
-
-# Boosting might terminate early, but the following arrays are always
-# n_estimators long. We crop them to the actual number of trees here:
-discrete_estimator_errors = bdt_discrete.estimator_errors_[:n_trees_discrete]
-real_estimator_errors = bdt_real.estimator_errors_[:n_trees_real]
-discrete_estimator_weights = bdt_discrete.estimator_weights_[:n_trees_discrete]
+model = best.fit(X_train, y_train)
 """
 
 y_pred = model.predict(X2).round(0)
