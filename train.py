@@ -56,7 +56,7 @@ best = grid_search.best_estimator_
 """
 
 bdt_real = AdaBoostClassifier(
-    DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=100, learning_rate=0.3
+    DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=200, learning_rate=0.1
 )
 
 model = bdt_real.fit(X_train, y_train)
