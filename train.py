@@ -34,15 +34,15 @@ df2 = pd.read_csv(s + "test.csv")
 y = df['Danceability'].to_numpy().astype(np.int32)
 X = df.drop(['Danceability'], axis=1).to_numpy()
 X2 = df2.to_numpy()
-
+"""
 X_train, X_test, y_train, y_test = train_test_split(
      X, y, test_size=3400, random_state=1125
 )
-
+"""
 
 X_train = X
 y_train = y
-
+"""
 grid_search = GridSearchCV(estimator=AdaBoostClassifier(
             DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42)), 
                            param_grid=params2, 
@@ -56,7 +56,7 @@ best = grid_search.best_estimator_
 
 """
 bdt_real = AdaBoostClassifier(
-    DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=200, learning_rate=0.1
+    DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=500, learning_rate=0.2
 )
 
 model = bdt_real.fit(X_train, y_train)
@@ -67,4 +67,4 @@ model = best.fit(X_train, y_train)
 
 y_pred = model.predict(X2).round(0)
 np.savetxt("predict", y_pred.astype(int), fmt='%i', delimiter=",")
-"""
+
