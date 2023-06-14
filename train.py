@@ -21,11 +21,11 @@ params = {
 
 params2 = {
     'n_estimators' : [100, 200, 300, 400, 500],
-    'learning_rate' : [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1]
+    'learning_rate' : [0.02]
 }
 
 # read csv
-s = "std_target_imputed_"
+s = "new_"
 print(s)
 df = pd.read_csv(s + "train.csv")
 df2 = pd.read_csv(s + "test.csv")
@@ -42,7 +42,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 X_train = X
 y_train = y
-"""
+
 grid_search = GridSearchCV(estimator=AdaBoostClassifier(
             DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42)), 
                            param_grid=params2, 
@@ -63,7 +63,7 @@ model = bdt_real.fit(X_train, y_train)
 """
 
 model = best.fit(X_train, y_train)
-"""
+
 
 y_pred = model.predict(X2).round(0)
 np.savetxt("predict", y_pred.astype(int), fmt='%i', delimiter=",")
