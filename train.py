@@ -25,7 +25,7 @@ params2 = {
 }
 
 # read csv
-s = "new_"
+s = "imputed_new_"
 print(s)
 df = pd.read_csv(s + "train.csv")
 df2 = pd.read_csv(s + "test.csv")
