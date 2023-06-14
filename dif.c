@@ -8,6 +8,8 @@ int main(int argc, char *argv[]){
 	int y[1 << 20];
 	int siz = 0, val;
 	int cnt[9] = {};
+    fscanf(fin1, "%[^\n]s", s);
+    fscanf(fin1, "\n");
 	while(fscanf(fin1, "%[^\n]s", s) != EOF){
 		fscanf(fin1, "\n");
 		sscanf(s, "%d", &y[siz]);

@@ -60,6 +60,7 @@ bdt_real = AdaBoostClassifier(
 )
 
 model = bdt_real.fit(X_train, y_train)
+# print(list(model.feature_importances_))
 """
 
 model = best.fit(X_train, y_train)
