@@ -20,8 +20,8 @@ params = {
 }
 
 params2 = {
-    'n_estimators' : [50, 100, 200],
-    'learning_rate' : [0.01, 0.02, 0.05, 0.1, 0.2, 0.5]
+    'n_estimators' : [100, 200, 300, 400, 500],
+    'learning_rate' : [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1]
 }
 
 # read csv
@@ -39,7 +39,7 @@ X_train, X_test, y_train, y_test = train_test_split(
      X, y, test_size=3400, random_state=1125
 )
 
-"""
+
 X_train = X
 y_train = y
 
@@ -53,8 +53,8 @@ grid_search.fit(X, y)
 print(grid_search.best_estimator_)
 
 best = grid_search.best_estimator_
-"""
 
+"""
 bdt_real = AdaBoostClassifier(
     DecisionTreeClassifier(max_depth=20, min_samples_leaf=50, criterion="entropy", random_state=42), n_estimators=200, learning_rate=0.1
 )
@@ -67,3 +67,4 @@ model = best.fit(X_train, y_train)
 
 y_pred = model.predict(X2).round(0)
 np.savetxt("predict", y_pred.astype(int), fmt='%i', delimiter=",")
+"""
