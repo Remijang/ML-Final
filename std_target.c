@@ -12,7 +12,7 @@ int main(){
         if(i) fprintf(fout1, "\n");
         fscanf(fin1, "%f", &y);
         for(int j = 0; j < 9; ++j) fscanf(fin1, "%Lf", &x[j]);
-        fprintf(fout1, "%d", (int)y);
+        fprintf(fout1, "%+d", (int)y);
         for(int j = 0; j < 9; ++j) fprintf(fout1, " %d:%Lf", j+1, x[j]);
     }
     for(int i = 0; i < 6315; ++i){
